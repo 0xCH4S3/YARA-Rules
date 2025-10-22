@@ -1,0 +1,22 @@
+import "pe"
+
+rule Hancitor_Loader
+{
+    meta:
+        author      = "0xCH4S3"
+        description = "Detects Hancitor Loader"
+        sha256      = "9A6B2A199AF672934BC1DE34DD9C668BBE5106C3D6E4889CF2C8170AD4F9D2F6"
+        reference   = "https://github.com/0xCH4S3"
+        date        = "2025-10-21"
+
+    strings:
+        $s_1 = {B8 01 00 00 00 6B C8 00 C6 81 00 50 00 10 00 68 00 20 00 00 E8 B3 ED FF FF 83 C4 04 A3 64 72 00 10 68 00 20 00 00 68 18 50 00 10 8B 15 64 72 00 10 52 E8 55 EE FF FF 83 C4 0C 6A 08 68 10 50 00 10 68 00 20 00 00 A1 64 72 00 10 50 E8 BB 06 00 00 83 C4 10 89 45 FC A1 64 72 00 10}
+		
+        $s_2 = "MASSLoader.dll" nocase
+        $s_3 = "DllRegisterServer" nocase
+        $s_4 = "DllUnregisterServer" nocase
+        $s_5 = "http://api.ipify.org" nocase
+
+    condition:
+        uint16(0) == 0x5A4D and all of them
+}
